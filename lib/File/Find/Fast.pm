@@ -2,10 +2,11 @@
 package File::Find::Fast;
 use strict;
 use warnings;
-use Class::Interface qw/implements/;
+#use Class::Interface qw/implements/;
 use Exporter qw(import);
 use File::Basename qw/fileparse basename dirname/;
 use File::Temp qw/tempdir tempfile/;
+use File::Spec;
 use Data::Dumper;
 use Carp qw/croak confess/;
 
@@ -59,7 +60,8 @@ sub _find_recursive{
   opendir(my $dh, $parentDir) || confess "Can't opendir $parentDir: $!";
   while(my $file = readdir($dh)){
     next if($file =~ /^\.+$/);
-    my $path = "$parentDir/$file";
+    #my $path = "$parentDir/$file";
+    my $path = File::Spec->catfile($parentDir, $file);
     push(@$files, $path);
     if(-d $path){
       _find_recursive($path, $files);
