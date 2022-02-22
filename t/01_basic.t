@@ -18,6 +18,6 @@ my $thisDir = dirname($0);
 
 subtest 'basic' => sub{
   my $files = File::Find::Fast::find("$thisDir/files");
-  is(scalar(@$files), 7, "Found 7 files/folders");
+  is(scalar(@$files), 8, "Found 8 files/folders");
 };
 
