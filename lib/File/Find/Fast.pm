@@ -10,7 +10,7 @@ use File::Spec;
 use Data::Dumper;
 use Carp qw/croak confess/;
 
-our $VERSION = 0.1;
+our $VERSION = '0.2.1';
 
 our @EXPORT_OK = qw(find);
 
