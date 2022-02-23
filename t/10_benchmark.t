@@ -17,9 +17,19 @@ use Path::Iterator::Rule ();
 my $thisDir = dirname($0);
 my $filesDir = "$thisDir/files";
 
+my $OS = "nix";
+if($^O =~ /mswin32/i){
+  $OS = "win";
+}
+
 # Vanilla GNU find program
 sub gnuFind{
-  my @files = `find $filesDir`;
+  my @files;
+  if($OS eq 'win'){
+    @files = `dir $filesDir /s`
+  } else {
+    @files = `find $filesDir`;
+  }
   chomp(@files);
   return \@files;
 }
