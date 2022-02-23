@@ -54,19 +54,19 @@ sub pirReused{
 }
 
 # initial check
-my $gnuFind = gnuFind();
-my $fileFindFast = fileFindFast();
-my $fileFind = fileFind();
-my $pirFresh = pirFresh();
-my $pirReused= pirReused();
+my $gnuFind = [sort @{ gnuFind() } ];
+my $fileFindFast = [sort @{ fileFindFast() } ];
+my $fileFind = [sort @{fileFind() } ];
+my $pirFresh = [sort @{pirFresh() } ];
+my $pirReused= [sort @{pirReused() } ];
 #note Dumper [$gnuFind, $fileFindFast, $fileFind];
 is_deeply($fileFindFast, $gnuFind, "File::Find::Fast");
 is_deeply($fileFind, $gnuFind, "File::Find");
-is_deeply([sort @$pirFresh], $gnuFind, "Path::Iterator::Rule");
-is_deeply([sort @$pirReused], $gnuFind, "Path::Iterator::Rule2");
+is_deeply($pirFresh, $gnuFind, "Path::Iterator::Rule");
+is_deeply($pirReused, $gnuFind, "Path::Iterator::Rule2");
 
 my $cmp = 
-  cmpthese(10, { 
+  cmpthese(1000, { 
       'gnuFind'          => sub { gnuFind() },
       'File::Find::Fast' => sub { fileFindFast() },
       'File::Find'       => sub { fileFind() },
