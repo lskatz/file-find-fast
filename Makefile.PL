@@ -14,7 +14,8 @@ WriteMakefile(
   },
   BUILD_REQUIRES => {
     'Test::More'     => 0.47,
-    #'File::Utils'    => 0,
+    'Path::Iterator::Rule' => '1.015',
+    'File::Find' => 0,
   },
   MIN_PERL_VERSION => '5.12.0',
   LICENSE          => "gpl_3",

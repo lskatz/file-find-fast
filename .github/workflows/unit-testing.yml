@@ -24,7 +24,7 @@ jobs:
           install-modules-with: cpanm
           install-modules-args: --force
           enable-modules-cache: true
-          #install-modules: Class::Interface
+          install-modules: Path::Iterator::Rule
       - run: perl -V
       - name: make test
         run: perl Makefile.PL && make && make test
