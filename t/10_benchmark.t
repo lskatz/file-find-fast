@@ -65,11 +65,23 @@ is_deeply($fileFind, $gnuFind, "File::Find");
 is_deeply([sort @$pirFresh], $gnuFind, "Path::Iterator::Rule");
 is_deeply([sort @$pirReused], $gnuFind, "Path::Iterator::Rule2");
 
-cmpthese(1000, { 
-    'gnuFind'          => sub { gnuFind() },
-    'File::Find::Fast' => sub { fileFindFast() },
-    'File::Find'       => sub { fileFind() },
-    'Path::Iterator::Rule'  => sub { pirFresh() },
-    'Path::Iterator::Rule2'  => sub { pirReused() },
-});
+my $cmp = 
+  cmpthese(10, { 
+      'gnuFind'          => sub { gnuFind() },
+      'File::Find::Fast' => sub { fileFindFast() },
+      'File::Find'       => sub { fileFind() },
+      'Path::Iterator::Rule'  => sub { pirFresh() },
+      'Path::Iterator::Rule2'  => sub { pirReused() },
+  });
+
+for(my $i=0;$i<@$cmp;$i++){
+  #note join("\t", @{ $$cmp[$i] });
+  my @a = @{ $$cmp[$i] };
+  my $row = "";
+  for(my $j=0;$j<@a;$j++){
+    # 22 characters to help hold our longest string Path::Iterator::Rule2
+    $row .= sprintf("%22s ", $a[$j]);
+  }
+  note $row;
+}
 
