@@ -82,6 +82,6 @@ for(my $i=0;$i<@$cmp;$i++){
     # 22 characters to help hold our longest string Path::Iterator::Rule2
     $row .= sprintf("%22s ", $a[$j]);
   }
-  note $row;
+  diag $row;
 }
 
