@@ -59,9 +59,9 @@ sub _find_recursive{
 
   opendir(my $dh, $parentDir) || confess "Can't opendir $parentDir: $!";
   while(my $file = readdir($dh)){
-    next if($file =~ /^\.+$/);
-    #my $path = "$parentDir/$file";
-    my $path = File::Spec->catfile($parentDir, $file);
+    next if($file =~ /^\.{1,2}$/);
+    my $path = "$parentDir/$file";
+    #my $path = File::Spec->catfile($parentDir, $file);
     push(@$files, $path);
     if(-d $path){
       _find_recursive($path, $files);
