@@ -26,7 +26,8 @@ if($^O =~ /mswin32/i){
 sub gnuFind{
   my @files;
   if($OS eq 'win'){
-    @files = `dir $filesDir /s`
+    my $f = pirFresh();
+    @files = @$f;
   } else {
     @files = `find $filesDir`;
   }
