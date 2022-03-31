@@ -12,6 +12,7 @@ use lib "$RealBin/../lib";
 use lib "$RealBin/../lib/perl5"; # compatibility with cpanm --installdeps . -l .
 use File::Find::Fast ();
 use File::Find ();
+use File::Which qw/which/;
 use Path::Iterator::Rule ();
 
 my $thisDir = dirname($0);
@@ -21,6 +22,7 @@ my $OS = "nix";
 if($^O =~ /mswin32/i){
   $OS = "win";
 }
+my $fd = which("fd");
 
 # Vanilla GNU find program
 sub gnuFind{
@@ -66,7 +68,7 @@ sub pirReused{
 
 sub fd{
   my @file;
-  if($OS eq 'win'){
+  if(!$fd){
     my $f = pirFresh();
     @file = @$f;
   }
