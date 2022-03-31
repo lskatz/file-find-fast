@@ -64,17 +64,26 @@ sub pirReused{
   return \@file;
 }
 
+sub fd{
+  my @file = `fd . $filesDir`;
+  chomp(@file);
+  unshift(@file, $filesDir); # fd doesn't have the root dir for some reason
+  return \@file;
+}
+
 # initial check
 my $gnuFind = [sort @{ gnuFind() } ];
 my $fileFindFast = [sort @{ fileFindFast() } ];
 my $fileFind = [sort @{fileFind() } ];
 my $pirFresh = [sort @{pirFresh() } ];
 my $pirReused= [sort @{pirReused() } ];
+my $fdFind = [sort @{fd() } ];
 #note Dumper [$gnuFind, $fileFindFast, $fileFind];
 is_deeply($fileFindFast, $gnuFind, "File::Find::Fast");
 is_deeply($fileFind, $gnuFind, "File::Find");
 is_deeply($pirFresh, $gnuFind, "Path::Iterator::Rule");
 is_deeply($pirReused, $gnuFind, "Path::Iterator::Rule2");
+is_deeply($fdFind, $gnuFind, "Fd-find");
 
 my $cmp = 
   cmpthese(1000, { 
@@ -83,6 +92,7 @@ my $cmp =
       'File::Find'       => sub { fileFind() },
       'Path::Iterator::Rule'  => sub { pirFresh() },
       'Path::Iterator::Rule2'  => sub { pirReused() },
+      'Fd-find'          => sub { fd() },
   });
 
 for(my $i=0;$i<@$cmp;$i++){

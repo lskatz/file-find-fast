@@ -17,6 +17,7 @@ jobs:
       - name: apt-get
         run:  |
           #sudo apt-get install ncbi-blast+ bowtie2 samtools mash minimap2 bwa
+          sudo apt-get install fd-find
       - name: Set up perl
         uses: shogo82148/actions-setup-perl@v1
         with:
