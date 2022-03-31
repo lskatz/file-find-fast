@@ -23,8 +23,9 @@ jobs:
         run:  |
           sudo apt-get install fd-find
           echo "fd can be found at "
-          which fd
-          which fdfind
+          which fd || true
+          which fdfind || true
+          which fd-find || true
       - name: Set up perl
         uses: shogo82148/actions-setup-perl@v1
         with:
