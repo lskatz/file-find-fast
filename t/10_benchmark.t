@@ -23,6 +23,7 @@ if($^O =~ /mswin32/i){
   $OS = "win";
 }
 my $fd = which("fd");
+diag "fd was found at: '$fd'";
 
 # Vanilla GNU find program
 sub gnuFind{
