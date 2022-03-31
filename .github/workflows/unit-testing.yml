@@ -14,7 +14,12 @@ jobs:
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: apt-get
+      - name: MacOS install
+        if:   ${{ matrix.os == 'macos-11.0' }}
+        run: |
+          sudo port install fd
+      - name: apt-get ubuntu
+        if:   ${{ matrix.os == 'ubuntu-20.04'}}
         run:  |
           #sudo apt-get install ncbi-blast+ bowtie2 samtools mash minimap2 bwa
           sudo apt-get install fd-find

@@ -65,9 +65,16 @@ sub pirReused{
 }
 
 sub fd{
-  my @file = `fd . $filesDir`;
-  chomp(@file);
-  unshift(@file, $filesDir); # fd doesn't have the root dir for some reason
+  my @file;
+  if($OS eq 'win'){
+    my $f = pirFresh();
+    @file = @$f;
+  }
+  else {
+    @file = `fd . $filesDir`;
+    chomp(@file);
+    unshift(@file, $filesDir); # fd doesn't have the root dir for some reason
+  }
   return \@file;
 }
 
