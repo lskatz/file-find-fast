@@ -21,8 +21,10 @@ jobs:
       - name: apt-get ubuntu
         if:   ${{ matrix.os == 'ubuntu-20.04'}}
         run:  |
-          #sudo apt-get install ncbi-blast+ bowtie2 samtools mash minimap2 bwa
           sudo apt-get install fd-find
+          echo "fd can be found at "
+          which fd
+          which fdfind
       - name: Set up perl
         uses: shogo82148/actions-setup-perl@v1
         with:

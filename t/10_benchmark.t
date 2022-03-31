@@ -22,7 +22,7 @@ my $OS = "nix";
 if($^O =~ /mswin32/i){
   $OS = "win";
 }
-my $fd = which("fd");
+my $fd = which("fd") || which("fdfind") || "";
 diag "fd was found at: '$fd'";
 
 # Vanilla GNU find program
@@ -74,7 +74,7 @@ sub fd{
     @file = @$f;
   }
   else {
-    @file = `fd . $filesDir`;
+    @file = `$fd . $filesDir`;
     chomp(@file);
     unshift(@file, $filesDir); # fd doesn't have the root dir for some reason
   }
