@@ -75,7 +75,10 @@ sub fd{
   }
   else {
     @file = `$fd . $filesDir`;
-    chomp(@file);
+    #chomp(@file);
+
+    # whitespace or trailing slash trimming
+    @file = map{ s|[/\s+]+$||g; $_} @file;
     unshift(@file, $filesDir); # fd doesn't have the root dir for some reason
   }
   return \@file;
