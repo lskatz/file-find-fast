@@ -51,6 +51,16 @@ sub fileFind{
   return \@files;
 }
 
+# Iterator file find
+sub fileFindFastIter{
+  my @files = ();
+  my $it = File::Find::Fast::find_iterator($filesDir);
+  while(my $f = $it->()){
+    push(@files, $f);
+  }
+  return \@files;
+}
+
 # PIR options for fastest possible finding, see:
 #   https://metacpan.org/pod/Path::Iterator::Rule#PERFORMANCE
 my $pirOptions = {loop_safe=>0, sorted=>0, depthfirst=>-1, error_handler=>undef};
@@ -87,21 +97,25 @@ sub fd{
 # initial check
 my $gnuFind = [sort @{ gnuFind() } ];
 my $fileFindFast = [sort @{ fileFindFast() } ];
+my $fileFindFastIter = [sort @{ fileFindFastIter() } ];
 my $fileFind = [sort @{fileFind() } ];
 my $pirFresh = [sort @{pirFresh() } ];
 my $pirReused= [sort @{pirReused() } ];
 my $fdFind = [sort @{fd() } ];
 #note Dumper [$gnuFind, $fileFindFast, $fileFind];
 is_deeply($fileFindFast, $gnuFind, "File::Find::Fast");
+is_deeply($fileFindFastIter, $gnuFind, "File::Find::Fast::fast_iter");
 is_deeply($fileFind, $gnuFind, "File::Find");
 is_deeply($pirFresh, $gnuFind, "Path::Iterator::Rule");
 is_deeply($pirReused, $gnuFind, "Path::Iterator::Rule2");
 is_deeply($fdFind, $gnuFind, "Fd-find");
 
 my $cmp = 
-  cmpthese(1000, { 
+  cmpthese(-5, { 
+  #cmpthese(1000, { 
       'gnuFind'          => sub { gnuFind() },
       'File::Find::Fast' => sub { fileFindFast() },
+      'File::Find::Fast::fast_iterator' => sub { fileFindFastIter() },
       'File::Find'       => sub { fileFind() },
       'Path::Iterator::Rule'  => sub { pirFresh() },
       'Path::Iterator::Rule2'  => sub { pirReused() },
