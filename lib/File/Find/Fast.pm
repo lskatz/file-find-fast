@@ -12,7 +12,7 @@ use Carp qw/croak confess/;
 
 our $VERSION = '0.3.1';
 
-our @EXPORT_OK = qw(find find_iterator);
+our @EXPORT_OK = qw(find find_iterator $VERSION);
 
 local $0=basename $0;
 
